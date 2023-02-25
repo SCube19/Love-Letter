@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundBoxExtra = 0.4f;
 
+    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float jumpBufferTime = 0.2f;
+
     private Direction direction = 0;
 
     private bool isJumping = false;
@@ -34,6 +37,16 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsGrounded())
+            lastGroundTime = 0;
+        else
+            lastGroundTime += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            lastJumpTime = 0;
+        else
+            lastJumpTime += Time.deltaTime;
+
         if (Input.GetKey(KeyCode.LeftArrow))
             direction = Direction.Left;
         else if (Input.GetKey(KeyCode.RightArrow))
@@ -50,9 +63,11 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         HandleMovement();
-        if (Input.GetKey(KeyCode.UpArrow) && IsGrounded())
+        if (!isJumping && lastGroundTime < coyoteTime && lastJumpTime < jumpBufferTime)  
             Jump();
         ClampVertical();
+        if (rb.velocity.y <= 0)
+            isJumping = false;
     }
 
     public bool IsGrounded()
@@ -98,9 +113,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
         isJumping = true;
-        lastGroundTime = 0;
-        lastJumpTime = 0;
-
     }
 
     private void ClampVertical()
