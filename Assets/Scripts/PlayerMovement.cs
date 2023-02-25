@@ -40,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
             direction = Direction.Right;
         else 
             direction = Direction.None;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            transform.position = new Vector2(90f, transform.position.y);
         SpriteFlip();
         SetAnimationParameters();
     }

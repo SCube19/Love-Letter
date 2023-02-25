@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -10,6 +8,12 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float maxHorizontal = float.PositiveInfinity;
     [SerializeField] private float followSpeed = 2f;
     [SerializeField] private GameObject toFollow;
+
+    [SerializeField] private float maxFollowDistanceHorizontal = 25f;
+    [SerializeField] private float maxFollowDistanceVertical = 25f;
+    [SerializeField] private float snapSpeed = 10f;
+
+    [SerializeField] private float lookahead = 3f;
 
     private Vector2 cameraVelocity = Vector2.zero;
 
@@ -28,7 +32,14 @@ public class CameraMovement : MonoBehaviour
 
     private void Follow()
     {
-        transform.position = Vector2.SmoothDamp(transform.position, toFollow.transform.position, ref cameraVelocity, followSpeed);
+        float diffX = Mathf.Abs(transform.position.x - toFollow.transform.position.x);
+        float diffY = Mathf.Abs(transform.position.y - toFollow.transform.position.y);
+        Vector2 vel = toFollow.GetComponent<Rigidbody2D>().velocity;
+
+        if (diffX > maxFollowDistanceHorizontal || diffY > maxFollowDistanceVertical)
+            transform.position = Vector2.Lerp(transform.position, toFollow.transform.position, Time.deltaTime * snapSpeed);
+        else
+            transform.position = Vector2.Lerp(transform.position, toFollow.transform.position + (new Vector3(vel.x, vel.y, 0) / lookahead), Time.deltaTime * followSpeed);
         SnapToConstraints();
     }
 
@@ -38,5 +49,11 @@ public class CameraMovement : MonoBehaviour
             Mathf.Min(maxHorizontal, Mathf.Max(minHorizontal, transform.position.x)),
             Mathf.Min(maxVertical, Mathf.Max(minVertical, transform.position.y)),
             -10);
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0.5f, 0, 0.5f, 0.25f);
+        Gizmos.DrawCube(transform.position, new Vector3(2 * maxFollowDistanceHorizontal, 2 * maxFollowDistanceVertical));
     }
 }
