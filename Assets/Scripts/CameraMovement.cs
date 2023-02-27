@@ -6,6 +6,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float minHorizontal = 0f;
     [SerializeField] private float maxVertical = float.PositiveInfinity;
     [SerializeField] private float maxHorizontal = float.PositiveInfinity;
+    
     [SerializeField] private float followSpeed = 2f;
     [SerializeField] private GameObject toFollow;
 
@@ -13,6 +14,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float maxFollowDistanceVertical = 25f;
     [SerializeField] private float snapSpeed = 10f;
 
+    [SerializeField] private float horizontalLookaheadThreshold = 9.5f;
     [SerializeField] private float lookahead = 3f;
 
     private Vector2 cameraVelocity = Vector2.zero;
@@ -39,7 +41,9 @@ public class CameraMovement : MonoBehaviour
         if (diffX > maxFollowDistanceHorizontal || diffY > maxFollowDistanceVertical)
             transform.position = Vector2.Lerp(transform.position, toFollow.transform.position, Time.deltaTime * snapSpeed);
         else
-            transform.position = Vector2.Lerp(transform.position, toFollow.transform.position + (new Vector3(vel.x, vel.y, 0) / lookahead), Time.deltaTime * followSpeed);
+            transform.position = Vector2.Lerp(transform.position, 
+                toFollow.transform.position + (new Vector3(vel.x, vel.y, 0) / lookahead), 
+                Time.deltaTime * followSpeed);
         SnapToConstraints();
     }
 

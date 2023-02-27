@@ -1176,7 +1176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1200,7 +1200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 30.99, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1225,9 +1225,10 @@ MonoBehaviour:
   maxHorizontal: Infinity
   followSpeed: 3
   toFollow: {fileID: 2100026837}
-  maxFollowDistanceHorizontal: 10
+  maxFollowDistanceHorizontal: 12
   maxFollowDistanceVertical: 5
   snapSpeed: 7
+  horizontalLookaheadThreshold: 9.5
   lookahead: 1
 --- !u!1 &600583829
 GameObject:
@@ -4206,12 +4207,16 @@ MonoBehaviour:
   acceleration: 7
   deceleration: 8
   friction: 0.2
-  jumpForce: 5
+  jumpForce: 12
   verticalClamp: 25
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundBoxExtra: 0.04
+  coyoteTime: 0.2
+  jumpBufferTime: 0.2
+  jumpCutMultiplier: 0.5
+  fallGravityScale: 3
 --- !u!61 &2100026839
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4229,8 +4234,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 1}
-    newSize: {x: 1.5625, y: 1}
+    oldSize: {x: 1.5625, y: 1.5}
+    newSize: {x: 1.5625, y: 1.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -4279,12 +4284,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1889771357, guid: d0b6b4ee2ce6a594fa44e07443df8f87, type: 3}
+  m_Sprite: {fileID: 1090859194, guid: 58562f68a7c68ef489f2b0ac284e5fe3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.5625, y: 1}
+  m_Size: {x: 1.5625, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -4298,7 +4303,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100026837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: 38.23, z: 0}
+  m_LocalPosition: {x: 34.19, y: -3.21, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4320,7 +4325,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1.2
+  m_GravityScale: 1.5
   m_Material: {fileID: 6200000, guid: c869d914c51b6b748ac00c9c7508f671, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 0

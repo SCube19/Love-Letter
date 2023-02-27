@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,23 +19,30 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float coyoteTime = 0.2f;
     [SerializeField] private float jumpBufferTime = 0.2f;
+    [SerializeField] private float jumpCutMultiplier = 0.3f;
+    [SerializeField] private float fallGravityScale = 3f;
 
     private Direction direction = 0;
 
     private bool isJumping = false;
     private float lastGroundTime = 0f;
     private float lastJumpTime = 0f;
+    private bool holdsJump = false;
+    private float initialGravityScale;
+
 
     private Rigidbody2D rb;
     private BoxCollider2D bc;
+    private Animator anim;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+        initialGravityScale = rb.gravityScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (IsGrounded())
@@ -46,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
             lastJumpTime = 0;
         else
             lastJumpTime += Time.deltaTime;
+
+        holdsJump = Input.GetKey(KeyCode.UpArrow);
 
         if (Input.GetKey(KeyCode.LeftArrow))
             direction = Direction.Left;
@@ -63,11 +73,9 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         HandleMovement();
-        if (!isJumping && lastGroundTime < coyoteTime && lastJumpTime < jumpBufferTime)  
-            Jump();
+        HandleJump();
+        HandleFall();
         ClampVertical();
-        if (rb.velocity.y <= 0)
-            isJumping = false;
     }
 
     public bool IsGrounded()
@@ -87,7 +95,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetAnimationParameters()
     {
-        GetComponent<Animator>().SetFloat("speed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
+        anim.SetFloat("speed", Mathf.Abs(rb.velocity.x));
+        anim.SetFloat("verticalSpeed", rb.velocity.y);
+        anim.SetBool("isJumping", isJumping);
     }
 
     private void HandleMovement()
@@ -109,10 +119,27 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HandleJump()
+    {
+        if (!isJumping && IsGrounded() && lastGroundTime < coyoteTime && lastJumpTime < jumpBufferTime)
+            Jump();
+
+        if (!holdsJump && isJumping && rb.velocity.y > 0)
+            rb.AddForce(jumpCutMultiplier * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
+
+        if (rb.velocity.y <= 0)
+            isJumping = false;
+    }
+
     private void Jump()
     {
         rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
         isJumping = true;
+    }
+
+    private void HandleFall()
+    {
+        rb.gravityScale = rb.velocity.y < 0 ? fallGravityScale : initialGravityScale;
     }
 
     private void ClampVertical()
