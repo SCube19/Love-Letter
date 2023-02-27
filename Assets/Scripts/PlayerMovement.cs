@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,30 +17,61 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundBoxExtra = 0.4f;
 
+    [SerializeField] private float coyoteTime = 0.2f;
+    [SerializeField] private float jumpBufferTime = 0.2f;
+    [SerializeField] private float jumpCutMultiplier = 0.3f;
+    [SerializeField] private float fallGravityScale = 3f;
+
+    //consider doing separate script
+    [SerializeField] private GameObject impactDust;
+
     private Direction direction = 0;
 
     private bool isJumping = false;
     private float lastGroundTime = 0f;
     private float lastJumpTime = 0f;
+    private bool holdsJump = false;
+    private float initialGravityScale;
 
     private Rigidbody2D rb;
     private BoxCollider2D bc;
+    private Animator anim;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+        initialGravityScale = rb.gravityScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (IsGrounded())
+        {
+            if (lastGroundTime > 0)
+                PlayImpactDust();
+            lastGroundTime = 0;
+        }
+        else
+            lastGroundTime += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            lastJumpTime = 0;
+        else
+            lastJumpTime += Time.deltaTime;
+
+        holdsJump = Input.GetKey(KeyCode.UpArrow);
+
         if (Input.GetKey(KeyCode.LeftArrow))
             direction = Direction.Left;
         else if (Input.GetKey(KeyCode.RightArrow))
             direction = Direction.Right;
         else 
             direction = Direction.None;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            transform.position = new Vector2(90f, transform.position.y);
         SpriteFlip();
         SetAnimationParameters();
     }
@@ -47,8 +79,8 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         HandleMovement();
-        if (Input.GetKey(KeyCode.UpArrow) && IsGrounded())
-            Jump();
+        HandleJump();
+        HandleFall();
         ClampVertical();
     }
 
@@ -69,7 +101,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetAnimationParameters()
     {
-        GetComponent<Animator>().SetFloat("speed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
+        anim.SetFloat("speed", Mathf.Abs(rb.velocity.x));
+        anim.SetFloat("verticalSpeed", rb.velocity.y);
+        anim.SetBool("isJumping", isJumping);
     }
 
     private void HandleMovement()
@@ -91,18 +125,38 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HandleJump()
+    {
+        if (!isJumping && IsGrounded() && lastGroundTime < coyoteTime && lastJumpTime < jumpBufferTime)
+            Jump();
+
+        if (!holdsJump && isJumping && rb.velocity.y > 0)
+            rb.AddForce(jumpCutMultiplier * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
+
+        if (rb.velocity.y <= 0)
+            isJumping = false;
+    }
+
     private void Jump()
     {
         rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
         isJumping = true;
-        lastGroundTime = 0;
-        lastJumpTime = 0;
+        PlayImpactDust();
+    }
 
+    private void HandleFall()
+    {
+        rb.gravityScale = rb.velocity.y < 0 ? fallGravityScale : initialGravityScale;
     }
 
     private void ClampVertical()
     {
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Sign(rb.velocity.y) * Mathf.Min(Mathf.Abs(rb.velocity.y), Mathf.Abs(verticalClamp)));
+    }
+
+    private void PlayImpactDust()
+    {
+        Instantiate(impactDust, transform.position - new Vector3(0, bc.bounds.extents.y, 1), Quaternion.identity);
     }
 
     public void OnDrawGizmos()
