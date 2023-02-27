@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpCutMultiplier = 0.3f;
     [SerializeField] private float fallGravityScale = 3f;
 
+    //consider doing separate script
+    [SerializeField] private GameObject impactDust;
+
     private Direction direction = 0;
 
     private bool isJumping = false;
@@ -29,7 +32,6 @@ public class PlayerMovement : MonoBehaviour
     private float lastJumpTime = 0f;
     private bool holdsJump = false;
     private float initialGravityScale;
-
 
     private Rigidbody2D rb;
     private BoxCollider2D bc;
@@ -46,7 +48,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (IsGrounded())
+        {
+            if (lastGroundTime > 0)
+                PlayImpactDust();
             lastGroundTime = 0;
+        }
         else
             lastGroundTime += Time.deltaTime;
 
@@ -135,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
         isJumping = true;
+        PlayImpactDust();
     }
 
     private void HandleFall()
@@ -145,6 +152,11 @@ public class PlayerMovement : MonoBehaviour
     private void ClampVertical()
     {
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Sign(rb.velocity.y) * Mathf.Min(Mathf.Abs(rb.velocity.y), Mathf.Abs(verticalClamp)));
+    }
+
+    private void PlayImpactDust()
+    {
+        Instantiate(impactDust, transform.position - new Vector3(0, bc.bounds.extents.y, 1), Quaternion.identity);
     }
 
     public void OnDrawGizmos()

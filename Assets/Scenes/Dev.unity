@@ -4217,6 +4217,7 @@ MonoBehaviour:
   jumpBufferTime: 0.2
   jumpCutMultiplier: 0.5
   fallGravityScale: 3
+  impactDust: {fileID: 1794552924084797835, guid: 02678b2184ceaa14c9ad04269d3e3838, type: 3}
 --- !u!61 &2100026839
 BoxCollider2D:
   m_ObjectHideFlags: 0
