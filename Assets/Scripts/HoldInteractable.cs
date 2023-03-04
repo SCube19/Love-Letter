@@ -8,23 +8,37 @@ public class HoldInteractable : MonoBehaviour
     [SerializeField] private float holdTime = 3f;
     [SerializeField] private KeyCode toHold;
 
-    public event Action OnHoldSuccess;
+    public event Action OnSuccess;
 
     private float currentHoldTime = 0f;
+    private bool eventTriggered;
 
     void Update()
     {
         if (Input.GetKey(toHold))
             currentHoldTime += Time.deltaTime;
         else
+        {
+            eventTriggered = false;
             currentHoldTime = 0f;
+        }
 
-        if (currentHoldTime >= holdTime)
-            OnHoldSuccess.Invoke();
+        if (!eventTriggered && currentHoldTime >= holdTime)
+            OnSuccess?.Invoke();
     }
 
     public float Progress()
     {
         return currentHoldTime / holdTime;
+    }
+
+    public void SetHold(KeyCode k)
+    {
+        toHold = k;
+    }
+
+    public void ResetState()
+    {
+        currentHoldTime = 0f;
     }
 }

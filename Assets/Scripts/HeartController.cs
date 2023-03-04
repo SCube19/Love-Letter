@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class HeartController : MonoBehaviour
+{
+    [SerializeField] private GameObject unlocker;
+    [SerializeField] private GameObject unlockEffects;
+
+    private void Awake()
+    {
+        unlocker.GetComponent<SuccessTrigger>().OnSuccess += UnlockHeart;
+        transform.Find("Sprite").GetComponent<Pickup>().OnPickup += PickupHandle;
+    }
+
+    private void OnDestroy()
+    {
+        unlocker.GetComponent<SuccessTrigger>().OnSuccess -= UnlockHeart;
+        transform.Find("Sprite").GetComponent<Pickup>().OnPickup -= PickupHandle;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+            unlocker.SetActive(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            unlocker.GetComponent<HoldPromptController>().ResetState();
+            unlocker.SetActive(false);
+        }
+    }
+
+    private void UnlockHeart()
+    {
+        unlocker.SetActive(false);
+        unlockEffects.SetActive(true);
+        unlockEffects.transform.Find("UnlockParticles").GetComponent<ParticleSystem>().Play();
+        transform.Find("Beam").gameObject.GetComponent<ParticleSystem>().Stop();
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<Animator>().SetTrigger("unlock");
+    }
+
+    private void PickupHandle()
+    {
+        Destroy(gameObject);
+    }
+}

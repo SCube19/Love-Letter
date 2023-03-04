@@ -5,46 +5,59 @@ using UnityEngine.UI;
 
 public class ProgressCircleFillController : MonoBehaviour
 {
-    private GameObject background;
+    private GameObject circle;
     private GameObject fill;
+    private GameObject particles;
+    public bool Stop { get; set; }
 
-    private bool disableUpdate = false;
-
+    private Color originalColor;
     void Awake()
     {
-        GetComponent<HoldInteractable>().OnHoldSuccess += TriggerEndAnimation;
+        Stop = false;
     }
 
     private void Start()
     {
-        background = transform.Find("Background").gameObject;
-        fill = transform.Find("Fill").gameObject;
+        circle = transform.Find("Circle").gameObject;
+        fill = circle.transform.Find("Fill").gameObject;
+        particles = circle.transform.Find("Fill Particles").gameObject;
+        originalColor = fill.GetComponent<Image>().color;
     }
 
-    private void OnDestroy()
-    {
-        GetComponent<HoldInteractable>().OnHoldSuccess -= TriggerEndAnimation;
-    }
     void Update()
     {
-        float progress = GetComponent<HoldInteractable>().Progress();
-        if (progress < 0.0001f)
-        {
-            background.SetActive(false);
-            fill.SetActive(false);
+        if (Stop)
             return;
+
+        float progress = GetComponent<HoldInteractable>().Progress();
+        if (progress > 0f)
+        {
+            circle.SetActive(true);
+            fill.GetComponent<Image>().fillAmount = progress;
+            particles.transform.eulerAngles = new Vector3(0, 0, Mathf.Max(-360, -progress * 360));
         }
         else
-        {
-            background.SetActive(true);
-            fill.SetActive(true);
-            fill.GetComponent<Image>().fillAmount = progress;
-        }
-    }
-    private void TriggerEndAnimation()
-    {
-        disableUpdate = true;
-        transform.localScale = Vector3.one * 2;
+            circle.SetActive(false);
     }
 
+    public void SetFillColor(Color c)
+    {
+        fill.GetComponent<Image>().color = c;
+    }
+
+    public void ResetState()
+    {
+        fill.GetComponent<Image>().color = originalColor;
+        Stop = false;
+        particles.transform.eulerAngles = Vector3.zero;
+        fill.GetComponent<Image>().fillAmount = 0;
+        circle.SetActive(false);
+        particles.SetActive(true);
+        GetComponent<HoldInteractable>().ResetState();
+    }
+
+    public void EnableParticles(bool enable)
+    {
+        particles.SetActive(enable);
+    }
 }
