@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleJump()
     {
-        if (!isJumping && IsGrounded() && lastGroundTime < coyoteTime && lastJumpTime < jumpBufferTime)
+        if (!isJumping && lastGroundTime < coyoteTime && lastJumpTime < jumpBufferTime)
             Jump();
 
         if (!holdsJump && isJumping && rb.velocity.y > 0)
