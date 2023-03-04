@@ -14,10 +14,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float maxFollowDistanceVertical = 25f;
     [SerializeField] private float snapSpeed = 10f;
 
-    [SerializeField] private float horizontalLookaheadThreshold = 9.5f;
     [SerializeField] private float lookahead = 3f;
-
-    private Vector2 cameraVelocity = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
