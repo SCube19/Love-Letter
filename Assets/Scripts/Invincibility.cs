@@ -5,11 +5,14 @@ using UnityEngine;
 public class Invincibility : MonoBehaviour
 {
     [SerializeField] private float invincibilityTime = 0.3f;
+    [SerializeField] private Material invincibilityMaterial;
+
+    private Material originalMaterial;
 
     public bool IsInvincible { get; private set; }
     void Start()
     {
-
+        originalMaterial = GetComponent<SpriteRenderer>().material;
     }
 
     // Update is called once per frame
@@ -25,9 +28,9 @@ public class Invincibility : MonoBehaviour
     private IEnumerator InvincibilityCoroutine()
     {
         IsInvincible = true;
-        GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<SpriteRenderer>().material = invincibilityMaterial;
         yield return new WaitForSeconds(invincibilityTime);
-        GetComponent<SpriteRenderer>().color = Color.white;
+        GetComponent<SpriteRenderer>().material = originalMaterial;
         IsInvincible = false;
     }
 }

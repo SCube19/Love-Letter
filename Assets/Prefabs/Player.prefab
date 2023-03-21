@@ -260,7 +260,7 @@ SpriteRenderer:
   m_Size: {x: 1.5625, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &8697697112815889302
@@ -373,6 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invincibilityTime: 0.3
+  invincibilityMaterial: {fileID: 0}
 --- !u!114 &812581926141734703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,5 +387,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   echoObject: {fileID: 8697697112815889300, guid: d7caa63ba53ac71438d83c0a9c23197e, type: 3}
-  echoTime: 0.04
+  echoTime: 0.03
   aliveTime: 0.3
