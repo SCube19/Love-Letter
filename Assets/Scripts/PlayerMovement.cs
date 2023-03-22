@@ -25,7 +25,10 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float dashForce = 1f;
     [SerializeField] private float dashCooldown = 1f;
-    [SerializeField] private float dashInvincibilityTime = 0.3f;
+    public float DashCooldown
+    {
+        get { return dashCooldown; }
+    }
 
     //consider doing separate script
     [SerializeField] private GameObject impactDust;
@@ -39,12 +42,14 @@ public class PlayerMovement : MonoBehaviour
 
     private float initialGravityScale;
 
+    //dash script
     private bool dash = false;
-    public bool IsInvincible { get; private set; }
 
     private Rigidbody2D rb;
     private BoxCollider2D bc;
     private Animator anim;
+
+    public event Action OnDash;
 
     void Start()
     {
@@ -52,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         initialGravityScale = rb.gravityScale;
+
+        //GameObject.Find("UI").transform.Find("DashTimer").GetComponent<TimedEvent>().SetWaitTime(dashCooldown);
 
         StartCoroutine(HandleDash());
     }
@@ -188,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
                 anim.SetTrigger("dash");
                 GetComponent<EchoEffect>().Play();
                 GetComponent<Invincibility>().MakeInvincible();
+                OnDash?.Invoke();
                 yield return new WaitForSeconds(dashCooldown);
                 dash = false;
             }

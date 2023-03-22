@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Invincibility
-  m_Shader: {fileID: -6465566751694194690, guid: 3ad22633d68efae478a8543879bac108, type: 3}
+  m_Name: InvincibilityHit
+  m_Shader: {fileID: -6465566751694194690, guid: e956a0ed78598e8419bf9bfbb1577e7d, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -51,12 +51,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _Speed: 0.5
-    - _Thickness: 0.005
+    - _Speed: 1
+    - _Thickness: 0.01
     m_Colors:
     - _Color: {r: 2.0589879, g: 0.22338079, b: 0.22338079, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _Primary_Color: {r: 9.611339, g: 0.13600926, b: 7.9127073, a: 1}
+    - _Primary_Color: {r: 2.421111, g: 0.49107447, b: 0.58748, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Secondary_Color: {r: 0, g: 9.059519, b: 4.1682215, a: 1}
+    - _Secondary_Color: {r: 9.059519, g: 7.3871155, b: 0, a: 1}
   m_BuildTextureStacks: []

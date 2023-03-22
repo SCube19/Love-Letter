@@ -252,15 +252,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1490030978, guid: 2603deea57f87f74999d4a7c50d90e66, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b4f708704602344699daa8702d06d0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.5625, y: 1.5}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &8697697112815889302
@@ -280,8 +280,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 1.5}
-    newSize: {x: 1.5625, y: 1.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -316,8 +316,7 @@ MonoBehaviour:
   jumpCutMultiplier: 0.5
   fallGravityScale: 3
   dashForce: 35
-  dashCooldown: 1
-  dashInvincibilityTime: 0.3
+  dashCooldown: 1.5
   impactDust: {fileID: 1794552924084797835, guid: 02678b2184ceaa14c9ad04269d3e3838, type: 3}
 --- !u!50 &8697697112815889307
 Rigidbody2D:
@@ -372,8 +371,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8148628c36840f24f8648ad5226809e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invincibilityTime: 0.3
-  invincibilityMaterial: {fileID: 0}
+  invincibilityTime: 0.2
+  hitMaterialTime: 0.1
+  invincibilityMaterial: {fileID: 2100000, guid: 5f6fa1202fdba964592bfb3b81a71c95, type: 2}
+  invincibilityHitMaterial: {fileID: 0}
+  hitProvider: {fileID: 0}
 --- !u!114 &812581926141734703
 MonoBehaviour:
   m_ObjectHideFlags: 0

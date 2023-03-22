@@ -5,7 +5,11 @@ using UnityEngine;
 public class Invincibility : MonoBehaviour
 {
     [SerializeField] private float invincibilityTime = 0.3f;
+    [SerializeField] private float hitMaterialTime = 0.1f;
     [SerializeField] private Material invincibilityMaterial;
+    [SerializeField] private Material invincibilityHitMaterial;
+    //for futuere me to solve
+    [SerializeField] private Hitbox hitProvider;
 
     private Material originalMaterial;
 
