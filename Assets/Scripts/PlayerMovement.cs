@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    enum Direction {Left = -1, None = 0, Right = 1};
+    enum Direction { Left = -1, None = 0, Right = 1 };
 
     [SerializeField] private float maxSpeed = 5f;
     [SerializeField] private float acceleration = 1f;
@@ -22,6 +23,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpCutMultiplier = 0.3f;
     [SerializeField] private float fallGravityScale = 3f;
 
+    [SerializeField] private float dashForce = 1f;
+    [SerializeField] private float dashCooldown = 1f;
+    public float DashCooldown
+    {
+        get { return dashCooldown; }
+    }
+
     //consider doing separate script
     [SerializeField] private GameObject impactDust;
 
@@ -31,11 +39,17 @@ public class PlayerMovement : MonoBehaviour
     private float lastGroundTime = 0f;
     private float lastJumpTime = 0f;
     private bool holdsJump = false;
+
     private float initialGravityScale;
+
+    //dash script
+    private bool dash = false;
 
     private Rigidbody2D rb;
     private BoxCollider2D bc;
     private Animator anim;
+
+    public event Action OnDash;
 
     void Start()
     {
@@ -43,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         initialGravityScale = rb.gravityScale;
+
+        //GameObject.Find("UI").transform.Find("DashTimer").GetComponent<TimedEvent>().SetWaitTime(dashCooldown);
+
+        StartCoroutine(HandleDash());
     }
 
     void Update()
@@ -56,6 +74,22 @@ public class PlayerMovement : MonoBehaviour
         else
             lastGroundTime += Time.deltaTime;
 
+        HandleActions();
+        SpriteFlip();
+        SetAnimationParameters();
+    }
+
+    void FixedUpdate()
+    {
+        HandleMovement();
+        HandleJump();
+        HandleFall();
+        ClampVertical();
+    }
+
+    private void HandleActions()
+    {
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
             lastJumpTime = 0;
         else
@@ -67,21 +101,11 @@ public class PlayerMovement : MonoBehaviour
             direction = Direction.Left;
         else if (Input.GetKey(KeyCode.RightArrow))
             direction = Direction.Right;
-        else 
+        else
             direction = Direction.None;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            transform.position = new Vector2(90f, transform.position.y);
-        SpriteFlip();
-        SetAnimationParameters();
-    }
-
-    void FixedUpdate()
-    {
-        HandleMovement();
-        HandleJump();
-        HandleFall();
-        ClampVertical();
+        if (Input.GetKeyDown(KeyCode.X))
+            dash = true;
     }
 
     public bool IsGrounded()
@@ -157,6 +181,32 @@ public class PlayerMovement : MonoBehaviour
     private void PlayImpactDust()
     {
         Instantiate(impactDust, transform.position - new Vector3(0, bc.bounds.extents.y, 1), Quaternion.identity);
+    }
+
+    private IEnumerator HandleDash()
+    {
+        while (true)
+        {
+            if (dash)
+            {
+                Vector3 dashImpulse = new(Mathf.Sign(rb.velocity.x) * dashForce, 0, 0);
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                rb.AddForce(dashImpulse, ForceMode2D.Impulse);
+                anim.SetTrigger("dash");
+                GetComponent<EchoEffect>().Play();
+                GetComponent<Invincibility>().MakeInvincible();
+                OnDash?.Invoke();
+                yield return new WaitForSeconds(dashCooldown);
+                dash = false;
+            }
+            yield return new WaitUntil(() => dash);
+        }
+    }
+
+    public void EndDash()
+    {
+        Debug.Log("enddash");
+        GetComponent<EchoEffect>().Stop();
     }
 
     public void OnDrawGizmos()

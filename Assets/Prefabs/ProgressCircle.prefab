@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4263177419441013083}
-  - component: {fileID: 4263177419441013081}
   - component: {fileID: 4263177419441013080}
   m_Layer: 5
   m_Name: ProgressCircle
@@ -39,20 +38,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4263177419441013081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4263177419441013082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338fd1f4a93976948a4fc7611db0e9df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holdTime: 2
-  toHold: 0
 --- !u!114 &4263177419441013080
 MonoBehaviour:
   m_ObjectHideFlags: 0

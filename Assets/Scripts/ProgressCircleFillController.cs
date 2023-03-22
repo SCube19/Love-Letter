@@ -20,7 +20,7 @@ public class ProgressCircleFillController : MonoBehaviour
     {
         circle = transform.Find("Circle").gameObject;
         fill = circle.transform.Find("Fill").gameObject;
-        particles = circle.transform.Find("Fill Particles").gameObject;
+        particles = circle.transform.Find("Fill Particles")?.gameObject;
         originalColor = fill.GetComponent<Image>().color;
     }
 
@@ -29,12 +29,13 @@ public class ProgressCircleFillController : MonoBehaviour
         if (Stop)
             return;
 
-        float progress = GetComponent<HoldInteractable>().Progress();
+        float progress = GetComponent<IProgressProvider>().Progress();
         if (progress > 0f)
         {
             circle.SetActive(true);
             fill.GetComponent<Image>().fillAmount = progress;
-            particles.transform.eulerAngles = new Vector3(0, 0, Mathf.Max(-360, -progress * 360));
+            if (particles)
+                particles.transform.eulerAngles = new Vector3(0, 0, Mathf.Max(-360, -progress * 360));
         }
         else
             circle.SetActive(false);
@@ -49,15 +50,19 @@ public class ProgressCircleFillController : MonoBehaviour
     {
         fill.GetComponent<Image>().color = originalColor;
         Stop = false;
-        particles.transform.eulerAngles = Vector3.zero;
+        if (particles)
+        {
+            particles.transform.eulerAngles = Vector3.zero;
+            particles.SetActive(true);
+        }
         fill.GetComponent<Image>().fillAmount = 0;
         circle.SetActive(false);
-        particles.SetActive(true);
-        GetComponent<HoldInteractable>().ResetState();
+        GetComponent<IProgressProvider>().ResetState();
     }
 
     public void EnableParticles(bool enable)
     {
-        particles.SetActive(enable);
+        if (particles)
+            particles.SetActive(enable);
     }
 }
