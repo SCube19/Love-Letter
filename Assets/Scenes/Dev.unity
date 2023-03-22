@@ -1037,6 +1037,7 @@ GameObject:
   - component: {fileID: 405679289}
   - component: {fileID: 405679288}
   - component: {fileID: 405679287}
+  - component: {fileID: 405679291}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1126,6 +1127,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &405679291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405679286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a590cedc540bb644dbf5272696fc50ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1709838958}
+  dashTimer: {fileID: 932019428}
 --- !u!1 &410757680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,6 +1705,10 @@ PrefabInstance:
       value: -6986924
       objectReference: {fileID: 0}
     - target: {fileID: 5171948445963207893, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
+      propertyPath: invincibilityTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5171948445963207893, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
       propertyPath: invincibilityMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 5f6fa1202fdba964592bfb3b81a71c95, type: 2}
@@ -1712,6 +1731,10 @@ PrefabInstance:
     - target: {fileID: 8697697112815889302, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 2.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 8697697112815889303, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
+      propertyPath: dashCooldown
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8697697112815889304, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
       propertyPath: m_RootOrder
@@ -2118,6 +2141,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &932019428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5493204906642088616, guid: f59322113330c6340a1164d3c2c6d1cc, type: 3}
+  m_PrefabInstance: {fileID: 92279539}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a3e3e1ab896224285bd0ab58865217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &954071232
 GameObject:
   m_ObjectHideFlags: 0
