@@ -8,7 +8,7 @@ public sealed class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private TimedEvent dashTimer;
-
+    [SerializeField] private 
     private float _dashCooldown;
     public float DashCooldown
     {
