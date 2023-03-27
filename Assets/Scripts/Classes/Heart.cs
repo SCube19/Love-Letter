@@ -2,22 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Heart : MonoBehaviour
+public class Heart : MonoBehaviour, IPickup
 {
-    private int _index;
+    [SerializeField] private int _index;
     public int Index
     {
         get { return _index; }
-        set
-        {
-            _index = value;
-            LetterFragment = "something with index";
-        }
+        set { _index = value; }
     }
 
     public string LetterFragment { get; private set; }
-    public Texture2D HeartTexture 
+
+    public Sprite HeartTexture
     {
-        get { return Resources.Load<Texture2D>($"SpriteSheets/heart_pieces_{_index}"); }
+        get { return Resources.LoadAll<Sprite>($"SpriteSheets/heart_pieces")[_index]; }
+    }
+
+    void Start()
+    {
+        GetComponent<SpriteRenderer>().sprite = HeartTexture;
+    }
+
+    public void Affect(GameObject player)
+    {
+        player.GetComponent<PlayerPickupController>().CollectHeart(this);
+        Destroy(gameObject);
     }
 }

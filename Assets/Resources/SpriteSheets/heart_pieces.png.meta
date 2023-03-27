@@ -109,9 +109,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 8
-        width: 3
-        height: 4
+        y: 13
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: heart_pieces_1
       rect:
         serializedVersion: 2
-        x: 6
-        y: 8
-        width: 5
-        height: 4
+        x: 11
+        y: 13
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +150,10 @@ TextureImporter:
       name: heart_pieces_2
       rect:
         serializedVersion: 2
-        x: 13
-        y: 8
-        width: 5
-        height: 3
+        x: 21
+        y: 12
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: heart_pieces_3
       rect:
         serializedVersion: 2
-        x: 20
-        y: 7
-        width: 5
-        height: 5
+        x: 33
+        y: 13
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,10 +192,10 @@ TextureImporter:
       name: heart_pieces_4
       rect:
         serializedVersion: 2
-        x: 27
-        y: 5
-        width: 6
-        height: 7
+        x: 44
+        y: 11
+        width: 9
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,7 +203,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2de83cf5f927af4408f5a23712eff243
+      spriteID: e394be78e18a44f438d48c1b81083371
       internalID: 604222556
       vertices: []
       indices: 
@@ -214,9 +214,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
-        width: 5
-        height: 5
+        y: 2
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,7 +224,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0bb8ac7b5406e2d41a66f56c2bc2272d
+      spriteID: 6507f14fe7c41574baf432c79afdb209
       internalID: 1809878370
       vertices: []
       indices: 
@@ -234,10 +234,10 @@ TextureImporter:
       name: heart_pieces_6
       rect:
         serializedVersion: 2
-        x: 7
-        y: 0
-        width: 3
-        height: 6
+        x: 10
+        y: 1
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -245,7 +245,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01172902b7b600f4e9e95765437262c9
+      spriteID: 7fd62cc87da3ae94f99f4fa207d9f1f1
       internalID: 1324132425
       vertices: []
       indices: 
@@ -255,10 +255,10 @@ TextureImporter:
       name: heart_pieces_7
       rect:
         serializedVersion: 2
-        x: 12
-        y: 2
-        width: 6
-        height: 3
+        x: 21
+        y: 1
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,7 +266,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f3060f8b1fc6b76428e84d8a4fb83717
+      spriteID: 403328f32e4315544a9f4d7aa6d5eabf
       internalID: -1499369460
       vertices: []
       indices: 
@@ -276,10 +276,10 @@ TextureImporter:
       name: heart_pieces_8
       rect:
         serializedVersion: 2
-        x: 20
-        y: 2
-        width: 4
-        height: 2
+        x: 32
+        y: 1
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -287,7 +287,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 331ec48d2b5c4724cbe6e71ec4a16df3
+      spriteID: 2f88b2d003f14e740816a6cf3e21144c
       internalID: 1024149621
       vertices: []
       indices: 
