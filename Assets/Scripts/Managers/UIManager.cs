@@ -21,15 +21,15 @@ public sealed class UIManager : MonoBehaviour
     {
         DashCooldown = player.GetComponent<PlayerMovement>().DashCooldown;
         player.GetComponent<PlayerMovement>().OnDash += ResetDashTimer;
-        player.GetComponent<PlayerPickupController>().OnHeartPickup += LightUpHeartFragment;
-        player.GetComponent<PlayerPickupController>().OnHeartTaken += FadeHeartFragment;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartPickup += LightUpHeartFragment;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartTaken += FadeHeartFragment;
     }
 
     public void OnDestroy()
     {
         player.GetComponent<PlayerMovement>().OnDash -= ResetDashTimer;
-        player.GetComponent<PlayerPickupController>().OnHeartPickup -= LightUpHeartFragment;
-        player.GetComponent<PlayerPickupController>().OnHeartTaken -= FadeHeartFragment;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartPickup -= LightUpHeartFragment;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartTaken -= FadeHeartFragment;
     }
 
     public void ResetDashTimer()

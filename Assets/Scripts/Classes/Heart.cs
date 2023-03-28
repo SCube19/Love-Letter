@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Heart : MonoBehaviour, IPickup
+public class Heart : Pickup
 {
     [SerializeField] private int _index;
     public int Index
@@ -23,9 +23,16 @@ public class Heart : MonoBehaviour, IPickup
         GetComponent<SpriteRenderer>().sprite = HeartTexture;
     }
 
-    public void Affect(GameObject player)
+    public override void Affect(GameObject player)
     {
-        player.GetComponent<PlayerPickupController>().CollectHeart(this);
-        Destroy(gameObject);
+        player.GetComponentInChildren<PlayerPickupController>().CollectHeart(GetComponent<Heart>());
+        PlaySound();
+        GetComponent<Animator>().SetTrigger("PickedUp");
     }
+
+    public void AnimEnd()
+    {
+        Destroy(transform.parent.gameObject);
+    }
+
 }

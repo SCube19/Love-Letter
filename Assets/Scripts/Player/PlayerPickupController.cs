@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class PlayerPickupController : MonoBehaviour
 {
     public List<Heart> Hearts { get; private set; }
@@ -10,10 +11,15 @@ public class PlayerPickupController : MonoBehaviour
     public event Action<Heart> OnHeartPickup;
     public event Action<Heart> OnHeartTaken;
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    private void Awake()
     {
-        IPickup pickup = collision.gameObject.GetComponent<IPickup>();
-        pickup?.Affect(gameObject);
+        Hearts = new List<Heart>();  
+    }
+    
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Pickup"))
+            collider.gameObject.GetComponent<Pickup>().Affect(gameObject);
     }
 
     public void CollectHeart(Heart heart)
