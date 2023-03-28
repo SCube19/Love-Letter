@@ -10,13 +10,11 @@ public class HeartController : MonoBehaviour
     private void Awake()
     {
         unlocker.GetComponent<SuccessTrigger>().OnSuccess += UnlockHeart;
-        transform.Find("Sprite").GetComponent<Pickup>().OnPickup += PickupHandle;
     }
 
     private void OnDestroy()
     {
         unlocker.GetComponent<SuccessTrigger>().OnSuccess -= UnlockHeart;
-        transform.Find("Sprite").GetComponent<Pickup>().OnPickup -= PickupHandle;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -42,10 +40,5 @@ public class HeartController : MonoBehaviour
         transform.Find("Beam").gameObject.GetComponent<ParticleSystem>().Stop();
         GetComponent<Collider2D>().enabled = false;
         GetComponent<Animator>().SetTrigger("unlock");
-    }
-
-    private void PickupHandle()
-    {
-        Destroy(gameObject);
     }
 }

@@ -7,6 +7,7 @@ public class HoldInteractable : MonoBehaviour, IProgressProvider
 {
     [SerializeField] private float holdTime = 3f;
     [SerializeField] private KeyCode toHold;
+    [SerializeField] private AudioSource holdSound;
 
     public event Action OnSuccess;
 
@@ -16,15 +17,22 @@ public class HoldInteractable : MonoBehaviour, IProgressProvider
     void Update()
     {
         if (Input.GetKey(toHold))
+        {
             currentHoldTime += Time.deltaTime;
+            if (!holdSound.isPlaying)
+                holdSound.Play();
+        }
         else
         {
             eventTriggered = false;
             currentHoldTime = 0f;
+            holdSound.Stop();
         }
 
-        if (!eventTriggered && currentHoldTime >= holdTime)
+        if (!eventTriggered && currentHoldTime >= holdTime) { 
             OnSuccess?.Invoke();
+            holdSound.Stop();
+        }
     }
 
     public float Progress()

@@ -8,6 +8,7 @@ public sealed class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private TimedEvent dashTimer;
+    [SerializeField] private GameObject heartSet;
 
     private float _dashCooldown;
     public float DashCooldown
@@ -20,16 +21,30 @@ public sealed class UIManager : MonoBehaviour
     {
         DashCooldown = player.GetComponent<PlayerMovement>().DashCooldown;
         player.GetComponent<PlayerMovement>().OnDash += ResetDashTimer;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartPickup += LightUpHeartFragment;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartTaken += FadeHeartFragment;
     }
 
     public void OnDestroy()
     {
         player.GetComponent<PlayerMovement>().OnDash -= ResetDashTimer;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartPickup -= LightUpHeartFragment;
+        player.GetComponentInChildren<PlayerPickupController>().OnHeartTaken -= FadeHeartFragment;
     }
 
     public void ResetDashTimer()
     {
         dashTimer.ResetState();
+    }
+
+    private void LightUpHeartFragment(Heart heart)
+    {
+        heartSet.transform.Find($"heart_pieces_{heart.Index}").gameObject.SetActive(true);
+    }
+
+    private void FadeHeartFragment(Heart heart)
+    {
+        heartSet.transform.Find($"heart_pieces_{heart.Index}").gameObject.SetActive(false);
     }
 
 }

@@ -16,7 +16,6 @@ public class Hitbox : MonoBehaviour
             || invincibilitySource.IsInvincible)
             return;
 
-        Debug.Log("hit");
         OnHit?.Invoke();
     }
 }
