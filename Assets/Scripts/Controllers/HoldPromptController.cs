@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class HoldPromptController : MonoBehaviour
+public class HoldPromptController : MonoBehaviour, ISuccessTrigger
 {
     [SerializeField] KeyCode toHold;
     [SerializeField] private AudioSource successSound;
 
     private GameObject progressCircle;
     private GameObject successParticles;
+
+    public event Action OnSuccess;
     void Awake()
     {
+        toHold = toHold != KeyCode.None ? toHold : KeyCode.E;
         progressCircle = transform.Find("ProgressCircle").gameObject;
         progressCircle.GetComponent<HoldInteractable>().SetHold(toHold);
         progressCircle.GetComponent<HoldInteractable>().OnSuccess += TriggerSuccessState;
@@ -27,12 +30,14 @@ public class HoldPromptController : MonoBehaviour
 
     private void TriggerSuccessState()
     {
+        OnSuccess?.Invoke();
         progressCircle.GetComponent<HoldInteractable>().enabled = false;
         progressCircle.GetComponent<ProgressCircleFillController>().EnableParticles(false);
         progressCircle.GetComponent<ProgressCircleFillController>().Stop = true;
         progressCircle.GetComponent<ProgressCircleFillController>().SetFillColor(new Color(255, 103, 0));
         successParticles.GetComponent<ParticleSystem>().Play();
-        successSound.Play();
+        if (successSound != null)
+            successSound.Play();
         GetComponent<Animator>().SetTrigger("success");
     }
 
@@ -40,5 +45,10 @@ public class HoldPromptController : MonoBehaviour
     {
         progressCircle.GetComponent<HoldInteractable>().enabled = true;
         progressCircle.GetComponent<ProgressCircleFillController>().ResetState();
+    }
+
+    public void SetInactive()
+    {
+        gameObject.SetActive(false);
     }
 }

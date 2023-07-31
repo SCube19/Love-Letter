@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoldInteractable : MonoBehaviour, IProgressProvider
+public class HoldInteractable : MonoBehaviour, IProgressProvider, ISuccessTrigger
 {
     [SerializeField] private float holdTime = 3f;
-    [SerializeField] private KeyCode toHold;
+    [SerializeField] private KeyCode toHold = KeyCode.E;
     [SerializeField] private AudioSource holdSound;
-
-    public event Action OnSuccess;
 
     private float currentHoldTime = 0f;
     private bool eventTriggered;
+
+    public event Action OnSuccess;
 
     void Update()
     {
