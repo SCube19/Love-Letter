@@ -9,12 +9,13 @@ public class HeartController : MonoBehaviour
 
     private void Awake()
     {
-        unlocker.GetComponent<SuccessTrigger>().OnSuccess += UnlockHeart;
+        unlocker.GetComponent<ISuccessTrigger>().OnSuccess += UnlockHeart;
+        transform.Find("Heart").Find("HeartObject").GetComponent<Heart>().Index = SceneManager.GetInstance().ChamberId;
     }
 
     private void OnDestroy()
     {
-        unlocker.GetComponent<SuccessTrigger>().OnSuccess -= UnlockHeart;
+        unlocker.GetComponent<ISuccessTrigger>().OnSuccess -= UnlockHeart;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,7 +35,6 @@ public class HeartController : MonoBehaviour
 
     private void UnlockHeart()
     {
-        unlocker.SetActive(false);
         unlockEffects.SetActive(true);
         unlockEffects.transform.Find("UnlockParticles").GetComponent<ParticleSystem>().Play();
         transform.Find("Beam").gameObject.GetComponent<ParticleSystem>().Stop();

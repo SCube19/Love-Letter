@@ -1,26 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(PressInteractable))]
-public class PressPromptController : MonoBehaviour
+public class PressPromptController : MonoBehaviour, ISuccessTrigger
 {
-    [SerializeField] KeyCode toPress;
-    [SerializeField] private AudioSource successSound;
+    [SerializeField] private KeyCode toPress = KeyCode.E;
+    [SerializeField] private AudioSource successSound;  
 
-    private 
+    public event Action OnSuccess;
+
     void Awake()
     {
-
+        toPress = toPress != KeyCode.None ? toPress : KeyCode.E;
         GetComponent<PressInteractable>().SetPress(toPress);
         GetComponent<PressInteractable>().OnSuccess += TriggerSuccessState;
         transform.Find("PressImage").GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = toPress.ToString();
     }
 
+    private void OnDestroy()
+    {
+        GetComponent<PressInteractable>().OnSuccess -= TriggerSuccessState;
+    }
+
     private void TriggerSuccessState()
     {
-        successSound.Play();
+        OnSuccess?.Invoke();
+        if (successSound != null)
+            successSound.Play();
         GetComponent<Animator>().SetTrigger("success");
     }
 }
