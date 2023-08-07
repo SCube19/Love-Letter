@@ -23,5 +23,9 @@ public class PressInteractable : MonoBehaviour, ISuccessTrigger
     {
         toPress = key;
     }
-     
+    
+    public void ResetState()
+    {
+        eventTriggered = false;
+    }
 }

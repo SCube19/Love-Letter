@@ -15,7 +15,7 @@ public class HoldPromptController : MonoBehaviour, ISuccessTrigger
     public event Action OnSuccess;
     void Awake()
     {
-        toHold = toHold != KeyCode.None ? toHold : KeyCode.E;
+        toHold = toHold != KeyCode.None ? toHold : ControlsManager.GetInstance().ControlMap[ControlsManager.Controls.Interact];
         progressCircle = transform.Find("ProgressCircle").gameObject;
         progressCircle.GetComponent<HoldInteractable>().SetHold(toHold);
         progressCircle.GetComponent<HoldInteractable>().OnSuccess += TriggerSuccessState;
@@ -30,8 +30,8 @@ public class HoldPromptController : MonoBehaviour, ISuccessTrigger
 
     private void TriggerSuccessState()
     {
-        OnSuccess?.Invoke();
         progressCircle.GetComponent<HoldInteractable>().enabled = false;
+        OnSuccess?.Invoke();
         progressCircle.GetComponent<ProgressCircleFillController>().EnableParticles(false);
         progressCircle.GetComponent<ProgressCircleFillController>().Stop = true;
         progressCircle.GetComponent<ProgressCircleFillController>().SetFillColor(new Color(255, 103, 0));

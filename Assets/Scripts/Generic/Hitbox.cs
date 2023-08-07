@@ -6,16 +6,14 @@ using UnityEngine;
 public class Hitbox : MonoBehaviour
 {
     [SerializeField] private List<string> detectTags;
-    [SerializeField] private Invincibility invincibilitySource;
 
-    public event Action OnHit;
+    public event Action<Collider2D> OnHit;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!detectTags.Exists(tag => collision.CompareTag(tag))
-            || invincibilitySource.IsInvincible)
+        if (!detectTags.Exists(tag => collision.CompareTag(tag)))
             return;
 
-        OnHit?.Invoke();
+        OnHit?.Invoke(collision);
     }
 }

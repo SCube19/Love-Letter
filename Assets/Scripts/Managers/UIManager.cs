@@ -34,7 +34,7 @@ public sealed class UIManager : MonoBehaviour
 
     public void ResetDashTimer()
     {
-        dashTimer.ResetState();
+        dashTimer.ResetProgress();
     }
 
     private void LightUpHeartFragment(Heart heart)

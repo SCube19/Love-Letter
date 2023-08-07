@@ -36,7 +36,7 @@ public class TimedEvent : MonoBehaviour, IProgressProvider
         return timePassed / waitTime;
     }
 
-    public void ResetState()
+    public void ResetProgress()
     {
         eventTriggered = false;
         timePassed = 0f;

@@ -90,21 +90,21 @@ public class PlayerMovement : MonoBehaviour
     private void HandleActions()
     {
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(ControlsManager.GetInstance().ControlMap[ControlsManager.Controls.Jump]))
             lastJumpTime = 0;
         else
             lastJumpTime += Time.deltaTime;
 
-        holdsJump = Input.GetKey(KeyCode.UpArrow);
+        holdsJump = Input.GetKey(ControlsManager.GetInstance().ControlMap[ControlsManager.Controls.Jump]);
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(ControlsManager.GetInstance().ControlMap[ControlsManager.Controls.MoveLeft]))
             direction = Direction.Left;
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(ControlsManager.GetInstance().ControlMap[ControlsManager.Controls.MoveRight]))
             direction = Direction.Right;
         else
             direction = Direction.None;
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(ControlsManager.GetInstance().ControlMap[ControlsManager.Controls.Dash]))
             dash = true;
     }
 

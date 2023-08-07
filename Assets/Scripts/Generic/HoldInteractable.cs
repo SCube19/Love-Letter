@@ -45,8 +45,14 @@ public class HoldInteractable : MonoBehaviour, IProgressProvider, ISuccessTrigge
         toHold = k;
     }
 
+    public void ResetProgress()
+    {
+        currentHoldTime = 0f;
+    }
+
     public void ResetState()
     {
+        eventTriggered = false;
         currentHoldTime = 0f;
     }
 }

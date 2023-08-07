@@ -28,7 +28,7 @@ public class HeartController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            unlocker.GetComponent<HoldPromptController>().ResetState();
+            unlocker.GetComponent<ISuccessTrigger>().ResetState();
             unlocker.SetActive(false);
         }
     }
