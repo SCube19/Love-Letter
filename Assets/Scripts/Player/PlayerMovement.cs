@@ -115,6 +115,11 @@ public class PlayerMovement : MonoBehaviour
         return raycast.collider != null;
     }
 
+    public bool IsMoving()
+    {
+        return direction != Direction.None;
+    }
+
     private void SpriteFlip()
     {
         if (direction == Direction.Left)
@@ -125,8 +130,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetAnimationParameters()
     {
-        anim.SetFloat("speed", Mathf.Abs(rb.velocity.x));
-        anim.SetFloat("verticalSpeed", rb.velocity.y);
+        anim.SetFloat("speed", Mathf.Abs(rb.linearVelocity.x));
+        anim.SetFloat("verticalSpeed", rb.linearVelocity.y);
         anim.SetBool("isJumping", isJumping);
     }
 
@@ -134,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float targetSpeed = (float)direction * maxSpeed;
 
-        float speedDiff = targetSpeed - rb.velocity.x;
+        float speedDiff = targetSpeed - rb.linearVelocity.x;
 
         float acc = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
 
@@ -144,8 +149,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (IsGrounded() && direction == Direction.None)
         {
-            float amount = Mathf.Min(Mathf.Abs(rb.velocity.x), Mathf.Abs(friction));
-            rb.AddForce((-Mathf.Sign(rb.velocity.x) * amount) * Vector2.right, ForceMode2D.Impulse);
+            float amount = Mathf.Min(Mathf.Abs(rb.linearVelocity.x), Mathf.Abs(friction));
+            rb.AddForce((-Mathf.Sign(rb.linearVelocity.x) * amount) * Vector2.right, ForceMode2D.Impulse);
         }
     }
 
@@ -154,10 +159,10 @@ public class PlayerMovement : MonoBehaviour
         if (!isJumping && lastGroundTime < coyoteTime && lastJumpTime < jumpBufferTime)
             Jump();
 
-        if (!holdsJump && isJumping && rb.velocity.y > 0)
-            rb.AddForce(jumpCutMultiplier * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
+        if (!holdsJump && isJumping && rb.linearVelocity.y > 0)
+            rb.AddForce(jumpCutMultiplier * rb.linearVelocity.y * Vector2.down, ForceMode2D.Impulse);
 
-        if (rb.velocity.y <= 0)
+        if (rb.linearVelocity.y <= 0)
             isJumping = false;
     }
 
@@ -170,12 +175,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleFall()
     {
-        rb.gravityScale = rb.velocity.y < 0 ? fallGravityScale : initialGravityScale;
+        rb.gravityScale = rb.linearVelocity.y < 0 ? fallGravityScale : initialGravityScale;
     }
 
     private void ClampVertical()
     {
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Sign(rb.velocity.y) * Mathf.Min(Mathf.Abs(rb.velocity.y), Mathf.Abs(verticalClamp)));
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Sign(rb.linearVelocity.y) * Mathf.Min(Mathf.Abs(rb.linearVelocity.y), Mathf.Abs(verticalClamp)));
     }
 
     private void PlayImpactDust()
@@ -189,8 +194,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dash)
             {
-                Vector3 dashImpulse = new(Mathf.Sign(rb.velocity.x) * dashForce, 0, 0);
-                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                Vector3 dashImpulse = new(Mathf.Sign(rb.linearVelocity.x) * dashForce, 0, 0);
+                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
                 rb.AddForce(dashImpulse, ForceMode2D.Impulse);
                 anim.SetTrigger("dash");
                 GetComponent<EchoEffect>().Play();

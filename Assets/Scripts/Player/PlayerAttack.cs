@@ -31,8 +31,24 @@ public class PlayerAttack : AttackDealer
         if (Input.GetKeyDown(ControlsManager.GetInstance().ControlMap[ControlsManager.Controls.Attack]))
         {
             GetComponent<Animator>().SetTrigger("attack");
-            this.CanAttack = false;
-            StartCoroutine(this.StartCooldown(standAttack.cooldown));
+            AttackObject chosenAttack;
+           
+            if (!GetComponent<PlayerMovement>().IsGrounded())
+            {
+                chosenAttack = airAttack;
+                GetComponent<Animator>().SetTrigger("attackAir");
+            }
+            else if (GetComponent<PlayerMovement>().IsMoving())
+            {
+                chosenAttack = moveAttack;
+                GetComponent<Animator>().SetTrigger("attackMoving");
+            }
+            else
+            {
+                chosenAttack = standAttack;
+                GetComponent<Animator>().SetTrigger("attackStanding");
+            }
+            this.StartAttack(chosenAttack);
         }
     }
 
@@ -43,13 +59,7 @@ public class PlayerAttack : AttackDealer
 
     public override void Attack(AttackReceiver target)
     {
-        this.DealStandingAttack(target);
-    }
-
-    private void DealStandingAttack(AttackReceiver target)
-    {
-        target.Damage(standAttack.damage);
-        target.Launch(standAttack.launchForce);
-
+        target.Damage(CurrentAttack.damage);
+        target.Launch(CurrentAttack.launchForce);
     }
 }

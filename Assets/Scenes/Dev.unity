@@ -2885,6 +2885,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 486251967322127769, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 508496231581626149, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[0].x
       value: -0.3303797
@@ -3025,6 +3029,14 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7792655597407469711, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
+      propertyPath: airAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7e9344a8c493544bf3a7932d6c53c9, type: 2}
+    - target: {fileID: 7792655597407469711, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
+      propertyPath: moveAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: d210999f917f3264e8ad42e6eb84fb8b, type: 2}
     - target: {fileID: 7792655597407469711, guid: 443de4de84d53344ebd6a49e52b6b5e9, type: 3}
       propertyPath: standAttack
       value: 
