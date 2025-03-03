@@ -57,7 +57,7 @@ public class ProgressCircleFillController : MonoBehaviour
         }
         fill.GetComponent<Image>().fillAmount = 0;
         circle.SetActive(false);
-        GetComponent<IProgressProvider>().ResetState();
+        GetComponent<IProgressProvider>().ResetProgress();
     }
 
     public void EnableParticles(bool enable)

@@ -6,5 +6,5 @@ using UnityEngine.EventSystems;
 public interface IProgressProvider
 {
     public float Progress();
-    public void ResetState();
+    public void ResetProgress();
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SceneManager
-{   
+{
+    public int ChamberId { get; set; }
     public SceneManager() { }
 
     private static SceneManager _instance;
@@ -18,5 +19,4 @@ public class SceneManager
            
         return _instance;
     }
-    public int ChamberId { get; set; }
 }

@@ -6,4 +6,6 @@ using UnityEngine;
 public interface ISuccessTrigger 
 {
     public event Action OnSuccess;
+
+    public void ResetState();
 }

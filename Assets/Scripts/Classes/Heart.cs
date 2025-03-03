@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: rewrite so it's not it's own class or entity across the project. Pickups can have effects so use it
 public class Heart : Pickup
 {
     [SerializeField] private int _index;

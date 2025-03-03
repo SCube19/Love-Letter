@@ -33,7 +33,7 @@ public class CameraMovement : MonoBehaviour
     {
         float diffX = Mathf.Abs(transform.position.x - toFollow.transform.position.x);
         float diffY = Mathf.Abs(transform.position.y - toFollow.transform.position.y);
-        Vector2 vel = toFollow.GetComponent<Rigidbody2D>().velocity;
+        Vector2 vel = toFollow.GetComponent<Rigidbody2D>().linearVelocity;
 
         if (diffX > maxFollowDistanceHorizontal || diffY > maxFollowDistanceVertical)
             transform.position = Vector2.Lerp(transform.position, toFollow.transform.position, Time.deltaTime * snapSpeed);
